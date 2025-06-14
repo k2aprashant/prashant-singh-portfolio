@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikhar Computer Education - Admin Dashboard Features</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --dark: #1b263b;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --card-shadow: 0 10px 20px -5px rgba(0,0,0,0.09);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: #4a4a4a;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #6c757d;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .divider {
+            height: 4px;
+            width: 80px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 1.5rem auto;
+            border-radius: 2px;
+        }
+        
+        .feature-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.75rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border-top: 3px solid var(--primary);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 1.75rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-desc {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+        
+        .feature-list {
+            columns: 2;
+            column-gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-list li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+            break-inside: avoid;
+        }
+        
+        .feature-list li:before {
+            content: '•';
+            color: var(--accent);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-to-top:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .back-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        @media (max-width: 768px) {
+            .feature-list {
+                columns: 1;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .back-to-top {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="header" id="top">
+            <a href="index.html">
+                <h1>Shikhar Computer Education Dashboard</h1>
+            </a>
+            <div class="divider"></div>
+            <p>Comprehensive management system designed for efficient administration of computer education institutes</p>
+        </div>
+        
+        <div class="feature-section">
+            <h2 class="section-title">Core Management Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Student Management</h3>
+                    <p class="feature-desc">Complete lifecycle management from admission to certification with integrated fee tracking and document management.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3 class="feature-title">Academic System</h3>
+                    <p class="feature-desc">Manage courses, subjects, batches, and academic sessions with automated scheduling tools.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3 class="feature-title">Financial Management</h3>
+                    <p class="feature-desc">Integrated wallet system with fee collection, payment tracking, and financial reporting capabilities.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-section">
+            <h2 class="section-title">Examination System</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">Exam Administration</h3>
+                    <p class="feature-desc">Create and schedule exams with question banks and automated grading systems.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🖨️</div>
+                    <h3 class="feature-title">Admit Cards</h3>
+                    <p class="feature-desc">Generate and distribute digital admit cards with secure verification features.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3 class="feature-title">Results Processing</h3>
+                    <p class="feature-desc">Automated result calculation with customizable grading systems and analytics.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-section">
+            <h2 class="section-title">Website & Administration</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Content Management</h3>
+                    <p class="feature-desc">Full control over website content including pages, blogs, and homepage slider management.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🏢</div>
+                    <h3 class="feature-title">Center Management</h3>
+                    <p class="feature-desc">Manage multiple branches with centralized control and individual configurations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛠️</div>
+                    <h3 class="feature-title">System Configuration</h3>
+                    <p class="feature-desc">Customize system settings, user permissions, and notification preferences.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="feature-section">
+            <h2 class="section-title">Complete Feature List</h2>
+            <ul class="feature-list">
+                <li>Interactive Dashboard Analytics</li>
+                <li>Student Admission Portal</li>
+                <li>Automated Fee Collection</li>
+                <li>Digital Payment Wallet</li>
+                <li>Course & Subject Management</li>
+                <li>Batch & Session Control</li>
+                <li>Examination System</li>
+                <li>Admit Card Generation</li>
+                <li>Result Processing</li>
+                <li>Digital Certificate Creation</li>
+                <li>Branch/Center Administration</li>
+                <li>Content Management System</li>
+                <li>Homepage Slider Control</li>
+                <li>User Role Management</li>
+                <li>System Configuration</li>
+                <li>Notification System</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 Shikhar Computer Education. All rights reserved.</p>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#top" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Back to Top Button Functionality
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('active');
+            } else {
+                backToTopButton.classList.remove('active');
+            }
+        });
+        
+        // Smooth scrolling for the button
+        backToTopButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>

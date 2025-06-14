@@ -416,6 +416,10 @@ h6 {
     overflow: hidden;
 }
 
+.project-item a{
+    text-decoration: none;
+}
+
 
 .project-card {
     background: var(--bg-primary);
