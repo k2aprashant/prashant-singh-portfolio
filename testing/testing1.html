@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>पैदल यात्री रिकॉर्डिंग</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <video id="video" width="100%" autoplay></video>
+    <button id="startBtn">रिकॉर्डिंग शुरू करें</button>
+    <button id="stopBtn" disabled>रोकें</button>
+    
+    <script>
+        const video = document.getElementById('video');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        let mediaRecorder;
+        let recordedChunks = [];
+        
+        // कैमरा एक्सेस करें
+        navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+            .then(stream => {
+                video.srcObject = stream;
+                
+                startBtn.onclick = () => {
+                    recordedChunks = [];
+                    mediaRecorder = new MediaRecorder(stream);
+                    
+                    mediaRecorder.ondataavailable = e => {
+                        if (e.data.size > 0) recordedChunks.push(e.data);
+                    };
+                    
+                    mediaRecorder.onstop = uploadVideo;
+                    mediaRecorder.start();
+                    
+                    startBtn.disabled = true;
+                    stopBtn.disabled = false;
+                };
+                
+                stopBtn.onclick = () => {
+                    mediaRecorder.stop();
+                    startBtn.disabled = false;
+                    stopBtn.disabled = true;
+                };
+            })
+            .catch(err => {
+                console.error("कैमरा एक्सेस में त्रुटि:", err);
+                alert("कैमरा एक्सेस करने में समस्या आई। कृपया अनुमतियाँ जांचें।");
+            });
+            
+        function uploadVideo() {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const formData = new FormData();
+            formData.append('video', blob, 'recording.webm');
+            
+            fetch('/upload-video', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("सफलतापूर्वक अपलोड हुआ:", data);
+                alert("वीडियो सफलतापूर्वक सहेजा गया!");
+            })
+            .catch(error => {
+                console.error("अपलोड त्रुटि:", error);
+                alert("वीडियो अपलोड करने में समस्या आई।");
+            });
+        }
+    </script>
+</body>
+</html>
