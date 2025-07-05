@@ -1,96 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>मोबाइल कैमरा एक्सेस</title>
+    <title>GitHub Pages कैमरा ऐप</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        #video {
-            width: 100%;
-            max-width: 500px;
-            background-color: #000;
-            margin: 10px 0;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 5px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:disabled {
-            background-color: #cccccc;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        #video { width: 100%; max-width: 400px; background: #000; margin: 10px auto; }
+        button { padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <h1>कैमरा एक्सेस</h1>
+    <h1>GitHub Pages कैमरा टेस्ट</h1>
     <video id="video" autoplay playsinline></video>
-    <div>
-        <button id="startBtn">कैमरा शुरू करें</button>
-        <button id="stopBtn" disabled>कैमरा बंद करें</button>
-    </div>
+    <button id="startBtn">कैमरा शुरू करें</button>
     <p id="errorMsg" style="color:red;"></p>
 
     <script>
         const video = document.getElementById('video');
         const startBtn = document.getElementById('startBtn');
-        const stopBtn = document.getElementById('stopBtn');
         const errorMsg = document.getElementById('errorMsg');
-        let stream = null;
 
-        // कैमरा शुरू करने का फंक्शन
-        async function startCamera() {
+        startBtn.addEventListener('click', async () => {
             try {
-                // मोबाइल कैमरा एक्सेस करें (फ्रंट कैमरा के लिए { facingMode: 'user' }, बैक कैमरा के लिए { facingMode: 'environment' })
-                stream = await navigator.mediaDevices.getUserMedia({
-                    video: { 
-                        facingMode: 'environment', // बाहरी कैमरा (पीछे वाला)
-                        width: { ideal: 1920 },
-                        height: { ideal: 1080 }
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: 'environment',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
                     },
                     audio: false
                 });
                 
                 video.srcObject = stream;
                 startBtn.disabled = true;
-                stopBtn.disabled = false;
                 errorMsg.textContent = "";
                 
-                // ऑटो-फोकस के लिए (कुछ डिवाइस पर काम करता है)
-                if ('focus' in video) {
-                    video.focus();
-                }
+                // iOS के लिए विशेष हैंडलिंग
+                video.play().catch(e => {
+                    errorMsg.textContent = "वीडियो प्ले नहीं हो पा रहा: " + e.message;
+                });
+                
             } catch (err) {
+                errorMsg.textContent = "त्रुटि: " + err.message;
                 console.error("कैमरा त्रुटि:", err);
-                errorMsg.textContent = "कैमरा एक्सेस करने में त्रुटि: " + err.message;
+                
+                if(err.name === 'NotAllowedError') {
+                    errorMsg.textContent += " - कृपया कैमरा अनुमति दें";
+                }
             }
-        }
-
-        // कैमरा बंद करने का फंक्शन
-        function stopCamera() {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                video.srcObject = null;
-                stream = null;
-                startBtn.disabled = false;
-                stopBtn.disabled = true;
-            }
-        }
-
-        // बटन इवेंट लिसनर
-        startBtn.addEventListener('click', startCamera);
-        stopBtn.addEventListener('click', stopCamera);
-
-        // पेज लोड होते ही कैमरा शुरू करने के लिए (ऑप्शनल)
-        // window.addEventListener('load', startCamera);
+        });
     </script>
 </body>
 </html>
