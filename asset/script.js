@@ -65,7 +65,7 @@ $(document).ready(function () {
 
     // Typed text effect
     const typedText = $('.typed-text');
-    const textArray = ['Prashant Singh', 'Laravel Dev', 'Full Stack Dev'];
+    const textArray = ['Prashant', 'Laravel Dev', 'Full Stack Dev'];
     let textIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
